@@ -1,7 +1,6 @@
 import { FormProvider, useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { createRecipe } from '../api'
 import { queryClient } from '../lib/queryClient'
 import { useState } from 'react'
 import { Button } from '../components/ui/Button'
@@ -10,6 +9,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { recipeSchema, type RecipeFormData } from '../types/forms/RecipeFormData'
 import FormInput from '../components/ui/FormInput'
 import { toast } from 'react-toastify'
+import { RecipesService } from '../api/generated'
 
 export default function AddRecipe() {
   const navigate = useNavigate()
@@ -30,7 +30,7 @@ export default function AddRecipe() {
   const { fields, append } = useFieldArray({ control, name: 'ingredients' })
 
   const mutation = useMutation({
-    mutationFn: createRecipe,
+    mutationFn: RecipesService.recipesControllerCreateRecipe,
     onSuccess: () => {
       toast.success('Recipe created successfully!')
       queryClient.invalidateQueries({ queryKey: ['recipes'] })

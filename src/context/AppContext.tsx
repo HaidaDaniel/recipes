@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
+import { OpenAPI } from '../api/generated'
 
 let logoutCallback: (() => void) | null = null
 
@@ -29,6 +30,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = (token: string) => {
     localStorage.setItem('token', token)
+    OpenAPI.TOKEN = localStorage.getItem('token') ?? ''
     setAuth(true)
   }
 

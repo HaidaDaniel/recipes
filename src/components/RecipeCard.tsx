@@ -1,10 +1,9 @@
 import { HeartFilledIcon } from '@radix-ui/react-icons'
-import type { Recipe } from '../types'
 import { useRef, useState } from 'react'
 import { useAuth } from '../context/AppContext'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { likeRecipe, unlikeRecipe } from '../api'
 import { toast } from 'react-toastify'
+import { RecipesService, type OutputRecipeDto } from '../api/generated'
 
 export default function RecipeCard({
   id,
@@ -14,14 +13,14 @@ export default function RecipeCard({
   likeCount,
   ingredients,
   isLiked,
-}: Recipe) {
+}: OutputRecipeDto) {
   const { isAuthenticated } = useAuth()
   const queryClient = useQueryClient()
   const [isBlocked, setIsBlocked] = useState(false)
   const ingredientsRef = useRef<HTMLDivElement>(null)
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (id: number) => (isLiked ? unlikeRecipe(id) : likeRecipe(id)),
+    mutationFn: (id: number) => (isLiked ? RecipesService.recipesControllerUnlikeRecipe(id) : RecipesService.recipesControllerLikeRecipe(id)),
     onSuccess: async () => {
       toast.success('Like updated')
       await queryClient.invalidateQueries({ queryKey: ['recipes'] })

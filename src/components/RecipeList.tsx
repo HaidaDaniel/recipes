@@ -1,9 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { getRecipes } from '../api'
 import RecipeCard from '../components/RecipeCard'
 import Loader from '../components/ui/Loader'
 import RecipesFilterModal, { type Filters } from '../components/RecipesFilterModal'
+import { RecipesService } from '../api/generated'
 
 export default function RecipeList() {
   const [filters, setFilters] = useState<Filters>({
@@ -14,20 +14,34 @@ export default function RecipeList() {
 
   const itemsPerPage = 10
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
-    useInfiniteQuery({
-      queryKey: ['recipes', filters],
-      queryFn: ({ pageParam = 1 }) =>
-        getRecipes({ ...filters, page: pageParam, limit: itemsPerPage }),
-      getNextPageParam: (lastPage, allPages) =>
-        lastPage.length < itemsPerPage ? undefined : allPages.length + 1,
-      initialPageParam: 1,
-    })
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useInfiniteQuery({
+    queryKey: ['recipes', filters],
+    queryFn: ({ pageParam = 1 }) =>
+      RecipesService.recipesControllerGetAllRecipes(
+        pageParam,
+        itemsPerPage,
+        filters.search || undefined,
+        filters.maxCookingTime,
+        filters.minIngredients
+      ),
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.length < itemsPerPage ? undefined : allPages.length + 1,
+    initialPageParam: 1,
+  })
+
+  const SCROLL_OFFSET = 200
 
   useEffect(() => {
     const onScroll = () => {
       if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 200 &&
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - SCROLL_OFFSET &&
         hasNextPage &&
         !isFetchingNextPage
       ) {

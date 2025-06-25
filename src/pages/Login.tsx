@@ -1,7 +1,6 @@
 import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '../components/ui/Button'
-import { login as loginRequest } from '../api'
 import { useNavigate } from '@tanstack/react-router'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -9,6 +8,7 @@ import { useAuth } from '../context/AppContext'
 import FormInput from '../components/ui/FormInput'
 import { toast } from 'react-toastify'
 import { authSchema, type AuthFormData } from '../types/forms/AuthFormData'
+import { AuthService } from '../api/generated'
 
 export default function Login() {
   const methods = useForm<AuthFormData>({
@@ -24,7 +24,7 @@ export default function Login() {
   const { login } = useAuth()
 
   const mutation = useMutation({
-    mutationFn: loginRequest,
+    mutationFn: AuthService.authControllerLogin,
     onSuccess: (data) => {
       login(data.access_token)
       toast.success('Successfully logged in!')
