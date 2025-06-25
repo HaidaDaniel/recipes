@@ -20,7 +20,10 @@ export default function RecipeCard({
   const ingredientsRef = useRef<HTMLDivElement>(null)
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (id: number) => (isLiked ? RecipesService.recipesControllerUnlikeRecipe(id) : RecipesService.recipesControllerLikeRecipe(id)),
+    mutationFn: (id: number) =>
+      isLiked
+        ? RecipesService.recipesControllerUnlikeRecipe(id)
+        : RecipesService.recipesControllerLikeRecipe(id),
     onSuccess: async () => {
       toast.success('Like updated')
       await queryClient.invalidateQueries({ queryKey: ['recipes'] })

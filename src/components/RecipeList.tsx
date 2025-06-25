@@ -14,27 +14,21 @@ export default function RecipeList() {
 
   const itemsPerPage = 10
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError,
-  } = useInfiniteQuery({
-    queryKey: ['recipes', filters],
-    queryFn: ({ pageParam = 1 }) =>
-      RecipesService.recipesControllerGetAllRecipes(
-        pageParam,
-        itemsPerPage,
-        filters.search || undefined,
-        filters.maxCookingTime,
-        filters.minIngredients
-      ),
-    getNextPageParam: (lastPage, allPages) =>
-      lastPage.length < itemsPerPage ? undefined : allPages.length + 1,
-    initialPageParam: 1,
-  })
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
+    useInfiniteQuery({
+      queryKey: ['recipes', filters],
+      queryFn: ({ pageParam = 1 }) =>
+        RecipesService.recipesControllerGetAllRecipes(
+          pageParam,
+          itemsPerPage,
+          filters.search || undefined,
+          filters.maxCookingTime,
+          filters.minIngredients
+        ),
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage.length < itemsPerPage ? undefined : allPages.length + 1,
+      initialPageParam: 1,
+    })
 
   const SCROLL_OFFSET = 200
 
