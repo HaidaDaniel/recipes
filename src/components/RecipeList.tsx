@@ -12,7 +12,7 @@ export default function RecipeList() {
     minIngredients: null,
   })
 
-  const itemsPerPage = 4
+  const itemsPerPage = 10
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
     useInfiniteQuery({
