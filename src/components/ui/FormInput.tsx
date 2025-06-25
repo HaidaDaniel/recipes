@@ -1,10 +1,10 @@
-import * as React from 'react'
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 import { useFormContext, get, type RegisterOptions } from 'react-hook-form'
 
-interface FormInputProps extends React.ComponentPropsWithoutRef<'input'> {
+interface FormInputProps extends ComponentPropsWithoutRef<'input'> {
   name: string
   label?: string
-  icon?: React.ReactNode
+  icon?: ReactNode
   type?: 'text' | 'email' | 'password' | 'number'
   rules?: RegisterOptions
 }

@@ -1,7 +1,6 @@
-import { HeartFilledIcon, InfoCircledIcon } from '@radix-ui/react-icons'
-import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@radix-ui/react-tooltip'
+import { HeartFilledIcon } from '@radix-ui/react-icons'
 import type { Recipe } from '../types'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useAuth } from '../context/AppContext'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { likeRecipe, unlikeRecipe } from '../api'
@@ -18,18 +17,8 @@ export default function RecipeCard({
 }: Recipe) {
   const { isAuthenticated } = useAuth()
   const queryClient = useQueryClient()
-  const [showTooltip, setShowTooltip] = useState(false)
   const [isBlocked, setIsBlocked] = useState(false)
-  const ingredientsRef = useRef<HTMLSpanElement>(null)
-
-  const fullList = ingredients.join(', ')
-
-  useEffect(() => {
-    if (ingredientsRef.current) {
-      const el = ingredientsRef.current
-      setShowTooltip(el.scrollHeight > el.clientHeight)
-    }
-  }, [ingredients])
+  const ingredientsRef = useRef<HTMLDivElement>(null)
 
   const { mutate, isPending } = useMutation({
     mutationFn: (id: number) => (isLiked ? unlikeRecipe(id) : likeRecipe(id)),
@@ -59,7 +48,7 @@ export default function RecipeCard({
   }
 
   return (
-    <div className="border rounded-xl p-5 bg-white shadow hover:shadow-md transition-shadow h-[300px] flex flex-col justify-between">
+    <div className="border border-gray-300 rounded-xl p-5 bg-white shadow hover:shadow-md transition-shadow h-[300px] flex flex-col justify-between">
       <div className="space-y-2 mb-4">
         <h2 className="font-semibold text-xl line-clamp-1">{title}</h2>
         <p className="text-gray-600 text-base line-clamp-2">{description}</p>
@@ -68,25 +57,15 @@ export default function RecipeCard({
       <div className="mt-auto space-y-3 text-sm">
         <div className="text-gray-500 flex items-start gap-1">
           <strong>Ingredients:</strong>
-          <div className="flex-1 relative">
-            <span
-              ref={ingredientsRef}
-              className="line-clamp-2 block break-words max-h-[3em] overflow-hidden"
-            >
-              {ingredients.join(', ')}
-            </span>
-            {showTooltip && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <InfoCircledIcon className="inline-block w-4 h-4 text-gray-400 ml-1 cursor-help absolute -right-5 top-0" />
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-sm text-xs bg-white border p-2 rounded shadow">
-                    {fullList}
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            )}
+          <div className="flex-1">
+            <div ref={ingredientsRef} className="flex flex-wrap gap-1 max-h-[3em] overflow-hidden">
+              {ingredients.map((item, i) => (
+                <span key={i} className="bg-yellow-100 px-2 py-0.5 rounded text-xs text-gray-800">
+                  {item}
+                </span>
+              ))}
+            </div>
+            <div className="w-full h-4 bg-gradient-to-t from-white via-white to-transparent -mt-4" />
           </div>
         </div>
 
@@ -99,7 +78,11 @@ export default function RecipeCard({
             disabled={!isAuthenticated || isPending || isBlocked}
             className={`flex items-center gap-1 transition-opacity ${
               isLiked ? 'text-red-600' : 'text-red-500'
-            } ${!isAuthenticated || isPending || isBlocked ? 'cursor-default opacity-60' : 'hover:text-red-600'}`}
+            } ${
+              !isAuthenticated || isPending || isBlocked
+                ? 'cursor-default opacity-60'
+                : 'hover:text-red-600'
+            }`}
           >
             {isPending ? (
               <span className="w-4 h-4 border-2 border-t-transparent border-current rounded-full animate-spin" />

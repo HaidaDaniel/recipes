@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 
 let logoutCallback: (() => void) | null = null
 
@@ -20,7 +20,7 @@ const AuthContext = createContext<{
   logout: () => {},
 })
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setAuth] = useState(false)
 
   useEffect(() => {
