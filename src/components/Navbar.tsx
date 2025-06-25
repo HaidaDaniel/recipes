@@ -1,6 +1,7 @@
 import { Link, useNavigate } from '@tanstack/react-router'
 import { Button } from './ui/Button'
 import { useAuth } from '../context/AppContext'
+import { ROUTES } from '../router'
 
 export default function Navbar() {
   const { isAuthenticated, logout } = useAuth()
@@ -8,7 +9,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     logout()
-    navigate({ to: '/login' })
+    navigate({ to: ROUTES.login })
   }
   return (
     <nav className="bg-white shadow px-6 py-4 flex justify-between items-center">
@@ -18,16 +19,16 @@ export default function Navbar() {
       <div className="flex gap-4 items-center">
         {!isAuthenticated ? (
           <>
-            <Link to="/login">
+            <Link to={ROUTES.login}>
               <Button variant="ghost">Login</Button>
             </Link>
-            <Link to="/signup">
+            <Link to={ROUTES.signup}>
               <Button>Sign Up</Button>
             </Link>
           </>
         ) : (
           <>
-            <Link to="/add-recipe">
+            <Link to={ROUTES.addRecipe}>
               <Button>Add Recipe</Button>
             </Link>
             <Button onClick={handleLogout}>Logout</Button>

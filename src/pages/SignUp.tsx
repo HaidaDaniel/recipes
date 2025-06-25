@@ -8,6 +8,7 @@ import FormInput from '../components/ui/FormInput'
 import { toast } from 'react-toastify'
 import { authSchema, type AuthFormData } from '../types/forms/AuthFormData'
 import { AuthService } from '../api/generated'
+import { ROUTES } from '../router'
 
 export default function SignUp() {
   const methods = useForm<AuthFormData>({
@@ -25,7 +26,7 @@ export default function SignUp() {
     mutationFn: AuthService.authControllerRegister,
     onSuccess: () => {
       toast.success('Account created successfully!')
-      navigate({ to: '/login' })
+      navigate({ to: ROUTES.login })
     },
     onError: (error: any) => {
       const msg = error?.body?.message || 'Registration failed'

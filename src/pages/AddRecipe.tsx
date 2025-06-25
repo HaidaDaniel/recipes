@@ -10,6 +10,7 @@ import { recipeSchema, type RecipeFormData } from '../types/forms/RecipeFormData
 import FormInput from '../components/ui/FormInput'
 import { toast } from 'react-toastify'
 import { RecipesService } from '../api/generated'
+import { ROUTES } from '../router'
 
 export default function AddRecipe() {
   const navigate = useNavigate()
@@ -34,7 +35,7 @@ export default function AddRecipe() {
     onSuccess: () => {
       toast.success('Recipe created successfully!')
       queryClient.invalidateQueries({ queryKey: ['recipes'] })
-      stayAfterSubmit ? reset() : navigate({ to: '/' })
+      stayAfterSubmit ? reset() : navigate({ to: ROUTES.home })
     },
     onError: (error: any) => {
       console.error(error)

@@ -9,6 +9,7 @@ import FormInput from '../components/ui/FormInput'
 import { toast } from 'react-toastify'
 import { authSchema, type AuthFormData } from '../types/forms/AuthFormData'
 import { AuthService } from '../api/generated'
+import { ROUTES } from '../router'
 
 export default function Login() {
   const methods = useForm<AuthFormData>({
@@ -28,7 +29,7 @@ export default function Login() {
     onSuccess: (data) => {
       login(data.access_token)
       toast.success('Successfully logged in!')
-      navigate({ to: '/' })
+      navigate({ to: ROUTES.home })
     },
     onError: (err: any) => {
       const message = err.response?.data?.message || 'Invalid credentials'

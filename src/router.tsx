@@ -2,25 +2,33 @@ import { Router, createRootRoute, createRoute, lazyRouteComponent } from '@tanst
 import MainLayout from './layout/MainLayout'
 import ProtectedRoute from './lib/ProtectedRoute'
 
+
+export const ROUTES = {
+  home: '/',
+  login: '/login',
+  signup: '/signup',
+  addRecipe: '/add-recipe',
+}
+
 const rootRoute = createRootRoute({
   component: MainLayout,
 })
 
 const homeRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/',
+  path: ROUTES.home,
   component: lazyRouteComponent(() => import('./pages/Home')),
 })
 
 const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/login',
+  path: ROUTES.login,
   component: lazyRouteComponent(() => import('./pages/Login')),
 })
 
 const signUpRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/signup',
+  path: ROUTES.signup,
   component: lazyRouteComponent(() => import('./pages/SignUp')),
 })
 
@@ -32,7 +40,7 @@ const protectedRoute = createRoute({
 
 const addRecipeRoute = createRoute({
   getParentRoute: () => protectedRoute,
-  path: '/add-recipe',
+  path: ROUTES.addRecipe,
   component: lazyRouteComponent(() => import('./pages/AddRecipe')),
 })
 
