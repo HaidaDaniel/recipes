@@ -1,54 +1,89 @@
-# React + TypeScript + Vite
+# 🍲 FE Recipes App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A frontend application for browsing, filtering, liking, and adding recipes using React, Vite, and TanStack tools.
 
-Currently, two official plugins are available:
+## 🚀 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Framework**: React 19 with TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **Routing**: TanStack Router
+- **Data Fetching**: TanStack Query
+- **Form Handling**: React Hook Form + Zod
+- **HTTP Client**: Axios
+- **UI Components**: Radix UI + Custom Components
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🔧 Getting Started
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### 1. Clone the repository
+
+```bash
+git clone git@github.com:HaidaDaniel/recipes.git
+cd recipes
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Install dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm install
+# or
+yarn
+# or
+pnpm install
+```
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+### 3. Configure environment variables
+
+Create a `.env` file based on the `.env.example`:
+
+```
+VITE_API_BASE_URL=
+```
+
+### 4. Run the app in development
+
+```bash
+npm run dev
+```
+
+App will be available at [http://localhost:5173](http://localhost:5173)
+
+---
+
+## 🧪 Features
+
+- Infinite scroll of recipes (masonry-style layout)
+- Filtering recipes via modal (search, max cooking time, min ingredients)
+- Likes with optimistic UI and login check
+- Auth flow: sign up / login with JWT handling
+- Add recipe (with dynamic ingredients input) — auth protected
+- Clear navigation and protected routes
+- Persistent filters across pagination
+- Loader spinners and toast notifications for feedback
+- Clean structure, reusable components, proper error handling
+
+---
+
+## 🧪 Optional Tests
+
+Tests are not implemented in this task, but the structure can be expanded using:
+
+- `React Testing Library` for UI components
+- `Vitest` or `Jest` for unit/integration tests
+
+---
+
+## 🗂️ Project Structure
+
+```
+src/
+├── api/              # Axios requests
+├── components/       # Shared UI components (Button, FormInput, etc.)
+├── context/          # Auth provider
+├── layout/           # Main layout with navbar, auth UI
+├── lib/              # Utilities and helpers
+├── pages/            # Page-level components (Home, Login, SignUp, AddRecipe)
+├── types/            # Zod schemas and form types
 ```
