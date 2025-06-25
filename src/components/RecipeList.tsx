@@ -1,9 +1,10 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import RecipeCard from '../components/RecipeCard'
-import Loader from '../components/ui/Loader'
-import RecipesFilterModal, { type Filters } from '../components/RecipesFilterModal'
+
 import { RecipesService } from '../api/generated'
+import RecipeCard from '../components/RecipeCard'
+import RecipesFilterModal, { type Filters } from '../components/RecipesFilterModal'
+import Loader from '../components/ui/Loader'
 
 export default function RecipeList() {
   const [filters, setFilters] = useState<Filters>({
@@ -24,8 +25,9 @@ export default function RecipeList() {
           filters.search || undefined,
           filters.maxCookingTime || undefined,
           filters.minIngredients || undefined
-        ), getNextPageParam: (lastPage, allPages) =>
-          lastPage.length < itemsPerPage ? undefined : allPages.length + 1,
+        ),
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage.length < itemsPerPage ? undefined : allPages.length + 1,
       initialPageParam: 1,
     })
 

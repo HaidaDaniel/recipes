@@ -1,16 +1,17 @@
-import { FormProvider, useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { queryClient } from '../lib/queryClient'
-import { useState } from 'react'
-import { Button } from '../components/ui/Button'
-import { SubmitModeSwitch } from '../components/ui/SubmitModeSwitch'
 import { useNavigate } from '@tanstack/react-router'
-import { recipeSchema, type RecipeFormData } from '../types/forms/RecipeFormData'
-import FormInput from '../components/ui/FormInput'
+import { useState } from 'react'
+import { FormProvider, useForm, useFieldArray } from 'react-hook-form'
 import { toast } from 'react-toastify'
+
 import { RecipesService } from '../api/generated'
+import { Button } from '../components/ui/Button'
+import FormInput from '../components/ui/FormInput'
+import { SubmitModeSwitch } from '../components/ui/SubmitModeSwitch'
+import { queryClient } from '../lib/queryClient'
 import { ROUTES } from '../router'
+import { recipeSchema, type RecipeFormData } from '../types/forms/RecipeFormData'
 
 export default function AddRecipe() {
   const navigate = useNavigate()
@@ -35,11 +36,15 @@ export default function AddRecipe() {
     onSuccess: () => {
       toast.success('Recipe created successfully!')
       queryClient.invalidateQueries({ queryKey: ['recipes'] })
-      stayAfterSubmit ? reset() : navigate({ to: ROUTES.home })
+      if (stayAfterSubmit) {
+        reset()
+      } else {
+        navigate({ to: ROUTES.home })
+      }
     },
-    onError: (error: any) => {
-      console.error(error)
-      toast.error(error.response?.data?.message || 'Failed to create recipe')
+    onError: (err: Error & { response?: { data?: { message?: string } } }) => {
+      console.error(err)
+      toast.error(err.response?.data?.message || 'Failed to create recipe')
     },
   })
 

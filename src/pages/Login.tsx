@@ -1,15 +1,16 @@
-import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from '../components/ui/Button'
-import { useNavigate } from '@tanstack/react-router'
 import { useMutation } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
-import { useAuth } from '../context/AppContext'
-import FormInput from '../components/ui/FormInput'
+import { useForm, FormProvider } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { authSchema, type AuthFormData } from '../types/forms/AuthFormData'
+
 import { AuthService } from '../api/generated'
+import { Button } from '../components/ui/Button'
+import FormInput from '../components/ui/FormInput'
+import { useAuth } from '../context/AppContext'
 import { ROUTES } from '../router'
+import { authSchema, type AuthFormData } from '../types/forms/AuthFormData'
 
 export default function Login() {
   const methods = useForm<AuthFormData>({
@@ -31,7 +32,7 @@ export default function Login() {
       toast.success('Successfully logged in!')
       navigate({ to: ROUTES.home })
     },
-    onError: (err: any) => {
+    onError: (err: Error & { response?: { data?: { message?: string } } }) => {
       const message = err.response?.data?.message || 'Invalid credentials'
       setError(message)
       toast.error(message)

@@ -1,14 +1,15 @@
-import { Button } from '../components/ui/Button'
-import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useNavigate } from '@tanstack/react-router'
 import { useMutation } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
-import FormInput from '../components/ui/FormInput'
+import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { authSchema, type AuthFormData } from '../types/forms/AuthFormData'
+
 import { AuthService } from '../api/generated'
+import { Button } from '../components/ui/Button'
+import FormInput from '../components/ui/FormInput'
 import { ROUTES } from '../router'
+import { authSchema, type AuthFormData } from '../types/forms/AuthFormData'
 
 export default function SignUp() {
   const methods = useForm<AuthFormData>({
@@ -28,7 +29,7 @@ export default function SignUp() {
       toast.success('Account created successfully!')
       navigate({ to: ROUTES.login })
     },
-    onError: (error: any) => {
+    onError: (error: Error & { body?: { message?: string } }) => {
       const msg = error?.body?.message || 'Registration failed'
       setErrorMessage(msg)
       toast.error(msg)

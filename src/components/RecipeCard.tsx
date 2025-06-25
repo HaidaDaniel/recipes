@@ -1,9 +1,10 @@
 import { HeartFilledIcon } from '@radix-ui/react-icons'
-import { useRef, useState } from 'react'
-import { useAuth } from '../context/AppContext'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
+
 import { RecipesService, type OutputRecipeDto } from '../api/generated'
+import { useAuth } from '../context/AppContext'
 
 export default function RecipeCard({
   id,

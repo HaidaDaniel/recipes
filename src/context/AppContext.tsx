@@ -1,15 +1,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
+
+import { setLogoutCallback } from './auth-utils'
 import { OpenAPI } from '../api/generated'
-
-let logoutCallback: (() => void) | null = null
-
-export function setLogoutCallback(cb: () => void) {
-  logoutCallback = cb
-}
-
-export function callLogout() {
-  if (logoutCallback) logoutCallback()
-}
 
 const AuthContext = createContext<{
   isAuthenticated: boolean
@@ -50,4 +42,5 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext)

@@ -1,7 +1,7 @@
 import { Router, createRootRoute, createRoute, lazyRouteComponent } from '@tanstack/react-router'
+
 import MainLayout from './layout/MainLayout'
 import ProtectedRoute from './lib/ProtectedRoute'
-
 
 export const ROUTES = {
   home: '/' as const,

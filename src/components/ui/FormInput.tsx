@@ -1,21 +1,14 @@
 import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 import { useFormContext, get, type RegisterOptions } from 'react-hook-form'
 
+import { sanitizeRulesForNumberInput } from '../../lib/utils'
+
 interface FormInputProps extends ComponentPropsWithoutRef<'input'> {
   name: string
   label?: string
   icon?: ReactNode
   type?: 'text' | 'email' | 'password' | 'number'
   rules?: RegisterOptions
-}
-
-export function sanitizeRulesForNumberInput(rules: RegisterOptions = {}): RegisterOptions {
-  const { pattern, valueAsDate, ...rest } = rules
-
-  return {
-    ...rest,
-    valueAsNumber: true as const,
-  }
 }
 
 export default function FormInput({

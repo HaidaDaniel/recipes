@@ -1,6 +1,7 @@
 import { Outlet } from '@tanstack/react-router'
-import Navbar from '../components/Navbar'
 import { Suspense } from 'react'
+
+import Navbar from '../components/Navbar'
 import Loader from '../components/ui/Loader'
 
 export default function MainLayout() {

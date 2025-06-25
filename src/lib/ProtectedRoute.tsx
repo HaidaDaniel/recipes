@@ -1,4 +1,5 @@
 import { Navigate, Outlet } from '@tanstack/react-router'
+
 import { useAuth } from '../context/AppContext'
 import { ROUTES } from '../router'
 
