@@ -4,8 +4,8 @@ import { useState } from 'react'
 
 export type Filters = {
   search: string
-  maxCookingTime?: number
-  minIngredients?: number
+  maxCookingTime: number | null
+  minIngredients: number | null
 }
 
 type Props = {
@@ -18,16 +18,16 @@ export default function RecipesFilterModal({ onChange }: Props) {
   const { register, handleSubmit, reset, getValues } = useForm<Filters>({
     defaultValues: {
       search: '',
-      maxCookingTime: undefined,
-      minIngredients: undefined,
+      maxCookingTime: null,
+      minIngredients: null,
     },
   })
 
   const onSubmit = (data: Filters) => {
     onChange({
       search: data.search,
-      maxCookingTime: data.maxCookingTime || undefined,
-      minIngredients: data.minIngredients || undefined,
+      maxCookingTime: data.maxCookingTime,
+      minIngredients: data.minIngredients,
     })
     setOpen(false)
   }
@@ -37,8 +37,8 @@ export default function RecipesFilterModal({ onChange }: Props) {
     const resetValues = getValues()
     onChange({
       search: resetValues.search,
-      maxCookingTime: resetValues.maxCookingTime || undefined,
-      minIngredients: resetValues.minIngredients || undefined,
+      maxCookingTime: resetValues.maxCookingTime,
+      minIngredients: resetValues.minIngredients,
     })
     setOpen(false)
   }

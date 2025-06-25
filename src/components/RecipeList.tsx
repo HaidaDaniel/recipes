@@ -8,11 +8,11 @@ import { RecipesService } from '../api/generated'
 export default function RecipeList() {
   const [filters, setFilters] = useState<Filters>({
     search: '',
-    maxCookingTime: undefined,
-    minIngredients: undefined,
+    maxCookingTime: null,
+    minIngredients: null,
   })
 
-  const itemsPerPage = 10
+  const itemsPerPage = 4
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError } =
     useInfiniteQuery({
@@ -22,11 +22,10 @@ export default function RecipeList() {
           pageParam,
           itemsPerPage,
           filters.search || undefined,
-          filters.maxCookingTime,
-          filters.minIngredients
-        ),
-      getNextPageParam: (lastPage, allPages) =>
-        lastPage.length < itemsPerPage ? undefined : allPages.length + 1,
+          filters.maxCookingTime || undefined,
+          filters.minIngredients || undefined
+        ), getNextPageParam: (lastPage, allPages) =>
+          lastPage.length < itemsPerPage ? undefined : allPages.length + 1,
       initialPageParam: 1,
     })
 
