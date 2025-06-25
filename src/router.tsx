@@ -4,10 +4,10 @@ import ProtectedRoute from './lib/ProtectedRoute'
 
 
 export const ROUTES = {
-  home: '/',
-  login: '/login',
-  signup: '/signup',
-  addRecipe: '/add-recipe',
+  home: '/' as const,
+  login: '/login' as const,
+  signup: '/signup' as const,
+  addRecipe: '/add-recipe' as const,
 }
 
 const rootRoute = createRootRoute({
