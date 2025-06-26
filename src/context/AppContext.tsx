@@ -3,31 +3,33 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from '
 import { setLogoutCallback } from './auth-utils'
 import { OpenAPI } from '../api/generated'
 
+export const LocalStorageKeyName = 'token' as const
+
 const AuthContext = createContext<{
   isAuthenticated: boolean
   login: (token: string) => void
   logout: () => void
 }>({
   isAuthenticated: false,
-  login: () => {},
-  logout: () => {},
+  login: () => { },
+  logout: () => { },
 })
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setAuth] = useState(false)
 
   useEffect(() => {
-    setAuth(!!localStorage.getItem('token'))
+    setAuth(!!localStorage.getItem(LocalStorageKeyName))
   }, [])
 
   const login = (token: string) => {
-    localStorage.setItem('token', token)
-    OpenAPI.TOKEN = localStorage.getItem('token') ?? ''
+    localStorage.setItem(LocalStorageKeyName, token)
+    OpenAPI.TOKEN = localStorage.getItem(LocalStorageKeyName) ?? ''
     setAuth(true)
   }
 
   const logout = () => {
-    localStorage.removeItem('token')
+    localStorage.removeItem(LocalStorageKeyName)
     setAuth(false)
   }
 
@@ -42,5 +44,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext)
